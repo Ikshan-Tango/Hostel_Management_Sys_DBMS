@@ -5,7 +5,6 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-
 # Create your views here.
 
 class AllRoutes(APIView):
@@ -18,5 +17,6 @@ class AllRoutes(APIView):
             "GET /user -> Get info about all users",
             "Get /hostel -> get ingo about all hostels"
         ]
+
         return Response(routes)
     

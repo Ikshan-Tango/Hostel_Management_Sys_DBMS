@@ -32,18 +32,40 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     
 class Student(models.Model):
 
-    blank_choice = [('', 'Choose'),]
-    hostels      = [("Hostel " + h, "Hostel " + h) for h in ascii_uppercase[:15]]
+    # blank_choice = [('', 'Choose'),]
+    # hostels      = [("Hostel " + h, "Hostel " + h) for h in ascii_uppercase[:15]]
 
     student    = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     college_id = models.CharField(primary_key = True, max_length=20)
     name       = models.CharField(max_length=50)
     age        = models.PositiveIntegerField()
-    room_num   = models.CharField(max_length=10)
-    hostel     = models.CharField(max_length=10, choices=blank_choice + hostels)
+    # room_num   = models.CharField(max_length=10)
+    # hostel     = models.CharField(max_length=10, choices=blank_choice + hostels)
     mobile_num = PhoneNumberField(null=False, blank=True, unique=True)
     branch      = models.CharField(max_length=20, null=True)
     year        = models.PositiveIntegerField(null=True)
 
     def __str__(self) -> str:
         return f"{self.college_id} {self.name}"
+    
+class Caretaker(models.Model):
+    
+        caretaker  = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+        name       = models.CharField(max_length=50)
+        age        = models.PositiveIntegerField()
+        mobile_num = PhoneNumberField(null=False, blank=True, unique=True)
+        # hostel     = models.CharField(max_length=10)
+    
+        def __str__(self) -> str:
+            return f"{self.name}"
+        
+class Warden(models.Model):
+     
+    warden  = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name       = models.CharField(max_length=50)
+    age        = models.PositiveIntegerField()
+    mobile_num = PhoneNumberField(null=False, blank=True, unique=True)
+    # hostel     = models.CharField(max_length=10)
+
+    def __str__(self) -> str:
+        return f"{self.name}"
