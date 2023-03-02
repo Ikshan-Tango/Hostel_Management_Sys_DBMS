@@ -41,6 +41,8 @@ INSTALLED_APPS = [
 
     'base.apps.BaseConfig',
     'rest_framework',
+    # Other apps…
+    "phonenumber_field",
 ]
 
 MIDDLEWARE = [
