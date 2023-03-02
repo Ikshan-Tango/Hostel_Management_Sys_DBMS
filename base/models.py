@@ -30,34 +30,26 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
     
-class Student(models.Model):
+class Hostel(models.Model):
 
-    # blank_choice = [('', 'Choose'),]
-    # hostels      = [("Hostel " + h, "Hostel " + h) for h in ascii_uppercase[:15]]
+    blank_choice = [('', 'Choose'),]
+    hostels      = [("Hostel " + h, "Hostel " + h) for h in ascii_uppercase[:15]]
 
-    student    = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    college_id = models.CharField(primary_key = True, max_length=20)
-    name       = models.CharField(max_length=50)
-    age        = models.PositiveIntegerField()
-    # room_num   = models.CharField(max_length=10)
-    # hostel     = models.CharField(max_length=10, choices=blank_choice + hostels)
-    mobile_num = PhoneNumberField(null=False, blank=True, unique=True)
-    branch      = models.CharField(max_length=20, null=True)
-    year        = models.PositiveIntegerField(null=True)
-
-    def __str__(self) -> str:
-        return f"{self.college_id} {self.name}"
+    hostel_name = models.CharField(max_length=10, choices=blank_choice + hostels, primary_key=True)
+    # warden      = models.ForeignKey(Warden, on_delete=models.CASCADE)
+    # caretaker   = models.ForeignKey(Caretaker, on_delete=models.CASCADE)
+    capacity    = models.IntegerField(blank=True)
     
 class Caretaker(models.Model):
     
-        caretaker  = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-        name       = models.CharField(max_length=50)
-        age        = models.PositiveIntegerField()
-        mobile_num = PhoneNumberField(null=False, blank=True, unique=True)
-        # hostel     = models.CharField(max_length=10)
-    
-        def __str__(self) -> str:
-            return f"{self.name}"
+    caretaker  = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name       = models.CharField(max_length=50)
+    age        = models.PositiveIntegerField()
+    mobile_num = PhoneNumberField(null=False, blank=True, unique=True)
+    hostel     = models.ForeignKey(Hostel,on_delete = models.CASCADE,default="Z")
+
+    def __str__(self) -> str:
+        return f"{self.name}"
         
 class Warden(models.Model):
      
@@ -65,7 +57,24 @@ class Warden(models.Model):
     name       = models.CharField(max_length=50)
     age        = models.PositiveIntegerField()
     mobile_num = PhoneNumberField(null=False, blank=True, unique=True)
-    # hostel     = models.CharField(max_length=10)
+    hostel     = models.ForeignKey(Hostel,on_delete = models.CASCADE,default="Z")
 
     def __str__(self) -> str:
         return f"{self.name}"
+
+    
+class Student(models.Model):
+
+    student    = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    college_id = models.CharField(primary_key = True, max_length=20)
+    name       = models.CharField(max_length=50)
+    age        = models.PositiveIntegerField()
+    # room_num   = models.CharField(max_length=10)
+    hostel     = models.ForeignKey(Hostel,on_delete = models.CASCADE,default="Z")
+    mobile_num = PhoneNumberField(null=False, blank=True, unique=True)
+    branch      = models.CharField(max_length=20, null=True)
+    year        = models.PositiveIntegerField(null=True)
+
+    def __str__(self) -> str:
+        return f"{self.college_id} {self.name}"
+    
