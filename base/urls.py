@@ -6,5 +6,5 @@ from . import views
 
 urlpatterns = [
     path("", views.AllRoutes.as_view(), name="routes"),
-    # path("users/",views.MedicineClass.as_view(), name="medicines")
+    path("user/",views.User.as_view(), name="users"),
 ]

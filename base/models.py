@@ -62,6 +62,9 @@ class Warden(models.Model):
     def __str__(self) -> str:
         return f"{self.name}"
 
+class Room(models.Model):
+    room_num = models.CharField(max_length=5)
+    hostel = models.ForeignKey(Hostel, on_delete = models.CASCADE)
     
 class Student(models.Model):
 
@@ -69,7 +72,7 @@ class Student(models.Model):
     college_id = models.CharField(primary_key = True, max_length=20)
     name       = models.CharField(max_length=50)
     age        = models.PositiveIntegerField()
-    # room_num   = models.CharField(max_length=10)
+    room_num   = models.OneToOneField(Room, on_delete=models.CASCADE,default="")
     hostel     = models.ForeignKey(Hostel,on_delete = models.CASCADE,default="Z")
     mobile_num = PhoneNumberField(null=False, blank=True, unique=True)
     branch      = models.CharField(max_length=20, null=True)
@@ -78,3 +81,4 @@ class Student(models.Model):
     def __str__(self) -> str:
         return f"{self.college_id} {self.name}"
     
+
